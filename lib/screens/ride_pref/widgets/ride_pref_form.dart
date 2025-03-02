@@ -236,23 +236,23 @@ class _RidePrefFormState extends State<RidePrefForm> {
           bottom: BorderSide(color: BlaColors.greyLight),
         ),
       ),
-      // child: Row(
-      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //   children: [
-      //     Row(
-      //       children: [
-      //         Icon(icon, color: BlaColors.primary),
-      //         SizedBox(width: 8),
-      //         Text(locationName, style: BlaTextStyles.label),
-      //       ],
-      //     ),
-      //     IconButton(
-      //       icon: Icon(Icons.swap_vert, color: BlaColors.primary),
-      //       onPressed: _swapLocations,
-      //       tooltip: 'Swap locations',
-      //     ),
-      //   ],
-      // ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Icon(icon, color: BlaColors.primary),
+              SizedBox(width: 8),
+              Text(locationName, style: BlaTextStyles.label),
+            ],
+          ),
+          IconButton(
+            icon: Icon(Icons.swap_vert, color: BlaColors.primary),
+            onPressed: _swapLocations,
+            tooltip: 'Swap locations',
+          ),
+        ],
+      ),
     );
   }
 
