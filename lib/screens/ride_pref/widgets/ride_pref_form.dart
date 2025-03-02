@@ -38,7 +38,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
     }
   }
 
-  // Get departure label
+  // Get depart label
   String get departureLabel => departure?.name ?? "Leaving from";
 
   // Get arrival label
