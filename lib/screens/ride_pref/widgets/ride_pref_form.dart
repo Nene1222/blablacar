@@ -5,6 +5,7 @@ import '../../../model/ride/locations.dart';
 import '../../../model/ride_pref/ride_pref.dart';
 import '../../../theme/theme.dart';
 import '../../../widgets/inputs/locations_picker.dart';
+import '../../../utils/animations_util.dart';
 
 /// A Ride Preference Form to select:
 ///   - A departure location
@@ -39,42 +40,40 @@ class _RidePrefFormState extends State<RidePrefForm> {
   }
 
   // Get depart label
-  String get departureLabel => departure?.name ?? "Leaving from";
+  String get departureLabel => departure?.name ?? "Leaving from";  
 
   // Get arrival label
   String get arrivalLabel => arrival?.name ?? "Going to";
 
   // Select Departure Location
   void _selectDeparture() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return BlaLocationPicker(
+    Navigator.of(context).push(
+      AnimationUtils.createBottomToTopRoute(
+        BlaLocationPicker(
           initLocation: departure,
           onLocationSelected: (selectedLocation) {
             setState(() {
               departure = selectedLocation; // Use previous if null
             });
           },
-        );
-      },
+        ),
+      ),
     );
   }
 
   // Select Arrival Location
   void _selectArrival() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return BlaLocationPicker(
+    Navigator.of(context).push(
+      AnimationUtils.createBottomToTopRoute(
+        BlaLocationPicker(
           initLocation: arrival,
           onLocationSelected: (selectedLocation) {
             setState(() {
               arrival = selectedLocation; // Use previous if null
             });
           },
-        );
-      },
+        ),
+      ),
     );
   }
 
@@ -192,36 +191,39 @@ class _RidePrefFormState extends State<RidePrefForm> {
           ],
         ),
         padding: const EdgeInsets.all(BlaSpacings.l),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Departure Location Selection
-            GestureDetector(
-              onTap: _selectDeparture,
-              child: _buildLocationRow(departureLabel, Icons.location_on),
-            ),
-            const SizedBox(height: BlaSpacings.s),
-            // Arrival Location Selection
-            GestureDetector(
-              onTap: _selectArrival,
-              child: _buildLocationRow(arrivalLabel, Icons.location_on),
-            ),
-            const SizedBox(height: BlaSpacings.s),
-            // Departure Date Selection
-            GestureDetector(
-              onTap: _selectDate,
-              child: _buildDateRow(),
-            ),
-            const SizedBox(height: BlaSpacings.s),
-            // Number of Persons Selection
-            GestureDetector(
-              onTap: _showPersonsDialog,
-              child: _buildPersonsRow(),
-            ),
-            const SizedBox(height: BlaSpacings.s),
-            // Submit Button
-            _buildSubmitButton(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Departure Location Selection
+              GestureDetector(
+                onTap: _selectDeparture,
+                child: _buildLocationRow(departureLabel, Icons.location_on),
+              ),
+              const SizedBox(height: BlaSpacings.s),
+              // Arrival Location Selection
+              GestureDetector(
+                onTap: _selectArrival,
+                child: _buildLocationRow(arrivalLabel, Icons.location_on),
+              ),
+              const SizedBox(height: BlaSpacings.s),
+              // Departure Date Selection
+              GestureDetector(
+                onTap: _selectDate,
+                child: _buildDateRow(),
+              ),
+              const SizedBox(height: BlaSpacings.s),
+              // Number of Persons Selection
+              GestureDetector(
+                onTap: _showPersonsDialog,
+                child: _buildPersonsRow(),
+              ),
+              const SizedBox(height: BlaSpacings.s),
+              // Submit Button
+              _buildSubmitButton(),
+              const SizedBox(height: 70), // Add this line to prevent overflow
+            ],
+          ),
         ),
       ),
     );
@@ -243,7 +245,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
             children: [
               Icon(icon, color: BlaColors.primary),
               SizedBox(width: 8),
-              Text(locationName, style: BlaTextStyles.label),
+              Text(locationName, style: BlaTextStyles.label.copyWith(color: BlaColors.neutralLight)),
             ],
           ),
           IconButton(
@@ -300,12 +302,12 @@ class _RidePrefFormState extends State<RidePrefForm> {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          print('Searching rides from ${departure?.name ?? "Leaving from"} to ${arrival?.name ?? "Going to"} on ${departureDate.toLocal()} with $requestedPersons persons.');
+          print('Searching rides from ${departure?.name ?? "Leaving from"} to ${arrival?.name ?? "Going to"} on ${departureDate.toLocal()} with $requestedPersons persons.');  // to change color of text to white is to add style: TextStyle(color: Colors.white) in ElevatedButton
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: BlaColors.primary,
           padding: const EdgeInsets.all(BlaSpacings.l),
-          textStyle: BlaTextStyles.button,
+          textStyle: BlaTextStyles.button,    
         ),
         child: Text('Search', style: TextStyle(color: Colors.white)),
       ),
